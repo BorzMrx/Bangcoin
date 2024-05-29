@@ -6,6 +6,18 @@ from aiogram.utils import executor
 bot = Bot(token=TELEGRAM_TOKEN)
 dp = Dispatcher(bot)
 
+async def set_commands(bot: Bot):
+    commands = [
+        types.BotCommand(command= '/start', description= 'Команда для запуска'),
+        types.BotCommand(command= '/help', description= 'Команда для помощи')
+    ]
+
+    await bot.set_my_commands(commands)
+
+
+
+
+
 @dp.message_handler(commands=("start"))
 async def send_welcome(message: types.Message):
     welcome_message = (
@@ -70,5 +82,9 @@ async def send_security(message: types.Message):
     )
     await message.answer(security_message, parse_mode=ParseMode.MARKDOWN)
 
+async def on_startup(dispatcher):
+    await set_commands(dispatcher.bot)
+
+
 if __name__ == '__main__':
-    executor.start_polling(dp, skip_updates= True)
+    executor.start_polling(dp, skip_updates= True, on_startup= on_startup)
