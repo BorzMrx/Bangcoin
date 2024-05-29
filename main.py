@@ -2,9 +2,17 @@ from aiogram import Bot, Dispatcher, types, executor
 from aiogram.types import ParseMode
 from config import  TELEGRAM_TOKEN
 from aiogram.utils import executor
-
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 bot = Bot(token=TELEGRAM_TOKEN)
 dp = Dispatcher(bot)
+
+keyboard = ReplyKeyboardMarkup(resize_keyboard= True)
+keyboard.add(
+    KeyboardButton("💱 Price"),
+    KeyboardButton("🔮 Forecast"),
+    KeyboardButton("📰 News"),
+    KeyboardButton("🔒 Security")
+)
 
 async def set_commands(bot: Bot):
     commands = [
@@ -35,7 +43,15 @@ async def send_welcome(message: types.Message):
         "Если вам нужна помощь, используйте команду /help, чтобы получить список доступных команд и их описание.\n\n"
         "🌟 *Bangcoin* - Ваш ключ к успеху в криптомире!"
     )
-    await message.answer(welcome_message, parse_mode=ParseMode.MARKDOWN)
+    await message.answer(welcome_message, parse_mode=ParseMode.MARKDOWN, reply_markup= keyboard)
+
+@dp.message_handler(lambda message: message.text == 'Кнопка 1')
+async def button_1_click(message: types.Message):
+    await message.answer('Ты нажал кнопку 1')
+
+    @dp.message_handler(lambda message: message.text == 'Кнопка 2')
+    async def button_2_click(message: types.Message):
+        await message.answer('Ты нажал кнопку 2')
 
     @dp.message_handler(commands=("help"))
     async def send_help(message: types.Message):
