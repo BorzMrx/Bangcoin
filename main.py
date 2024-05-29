@@ -9,8 +9,12 @@ dp = Dispatcher(bot)
 async def set_commands(bot: Bot):
     commands = [
         types.BotCommand(command= '/start', description= 'Команда для запуска'),
-        types.BotCommand(command= '/help', description= 'Команда для помощи')
-    ]
+        types.BotCommand(command= '/help', description= 'Команда для помощи'),
+        types.BotCommand(command='/price', description= 'Узнать цену'),
+        types.BotCommand(command='/forecast', description= 'Прогноз'),
+        types.BotCommand(command='/news', description= 'Новости'),
+        types.BotCommand(command='/security', description= 'Безопасность')
+        ]
 
     await bot.set_my_commands(commands)
 
